@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
@@ -20,9 +20,31 @@ class App extends React.Component {
 
 	componentDidMount() {
 		// onAuthStateChanged returns a firebase.Unsubscribe method
-		this.unSubscribeFromAuth = auth.onAuthStateChanged((user) => {
-			this.setState({ currentUser: user });
-			console.log(user);
+		this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+			if (userAuth) {
+				//
+				const userRef = await createUserProfileDocument(userAuth);
+
+				// Listener: If there's a change in snapShop, grab the current snapShot
+				userRef.onSnapshot((snapShot) => {
+					console.log(snapShot.data());
+
+					this.setState(
+						{
+							currentUser: {
+								id: snapShot.id,
+								...snapShot.data()
+							}
+						},
+						() => {
+							console.log(this.state);
+						}
+					);
+				});
+			} else {
+				// If userAuth is NULL, return userAuth to setState
+				this.setState({ currentUser: userAuth });
+			}
 		});
 	}
 

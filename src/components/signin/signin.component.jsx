@@ -17,7 +17,7 @@ class SignIn extends React.Component {
 
 	handleSubmit = (event) => {
 		event.preventDefault();
-		this.setState({ email: '', password: '' });
+		this.setState({ email: '', password: '' }, () => console.log(this.state));
 	};
 
 	handleChange = (event) => {
@@ -51,7 +51,7 @@ class SignIn extends React.Component {
 					<div className='buttons'>
 						<CustomButton type='submit'>Sign-in</CustomButton>
 						<CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-							Sign-in with Google
+							Google Sign-in
 						</CustomButton>
 					</div>
 				</form>
