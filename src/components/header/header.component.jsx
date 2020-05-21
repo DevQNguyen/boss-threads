@@ -5,7 +5,6 @@ import { ReactComponent as Logo } from '../../assets/crown_logo.svg';
 import './header.styles.scss';
 
 const Header = ({ currentUser }) => {
-	console.log(currentUser);
 	const signInStatus = currentUser ? (
 		<div className='menu-link' onClick={() => auth.signOut()}>
 			SIGN-OUT

@@ -27,19 +27,12 @@ class App extends React.Component {
 
 				// Listener: If there's a change in snapShop, grab the current snapShot
 				userRef.onSnapshot((snapShot) => {
-					console.log(snapShot.data());
-
-					this.setState(
-						{
-							currentUser: {
-								id: snapShot.id,
-								...snapShot.data()
-							}
-						},
-						() => {
-							console.log(this.state);
+					this.setState({
+						currentUser: {
+							id: snapShot.id,
+							...snapShot.data()
 						}
-					);
+					});
 				});
 			} else {
 				// If userAuth is NULL, return userAuth to setState

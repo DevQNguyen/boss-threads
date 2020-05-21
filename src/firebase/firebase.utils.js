@@ -20,13 +20,12 @@ export const firestore = firebase.firestore();
 // Query firestore and create a document
 export const createUserProfileDocument = async (userAuth, additionalData) => {
 	if (!userAuth) return;
-	console.log(userAuth);
+
 	// Querying the documentReference of a specific user
 	const userRef = firestore.doc(`users/${userAuth.uid}`);
 
 	// Get the snapshot object of that user
 	const snapShot = await userRef.get();
-	console.log(snapShot);
 
 	// If snapShot doesn't exists, create a new user document object
 	if (!snapShot.exists) {
@@ -44,7 +43,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 			console.log('Error creating user:', error.message);
 		}
 	}
-	console.log(userRef);
+
 	return userRef;
 };
 
