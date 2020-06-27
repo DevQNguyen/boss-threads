@@ -1,64 +1,28 @@
-import React from "react";
-import MenuItem from "../menu-item/menu-item.component";
-import "./directory.styles.scss";
+import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import MenuItem from '../menu-item/menu-item.component';
+import { selectDirectorySections } from '../../redux/directory/directory.selectors';
+import './directory.styles.scss';
 
-class DirectoryMenu extends React.Component {
-  constructor(props) {
-    super(props);
+const DirectoryMenu = ({ sections }) => {
+	return (
+		<div className='directory-menu'>
+			{sections.map(({ id, title, imageUrl, linkUrl, size }) => (
+				<MenuItem
+					key={id}
+					title={title}
+					imageUrl={imageUrl}
+					linkUrl={linkUrl}
+					size={size}
+				/>
+			))}
+		</div>
+	);
+};
 
-    this.state = {
-      sections: [
-        {
-          title: "hats",
-          imageUrl: "https://i.ibb.co/cvpntL1/hats.png",
-          id: 1,
-          linkUrl: "hats",
-        },
-        {
-          title: "jackets",
-          imageUrl: "https://i.ibb.co/px2tCc3/jackets.png",
-          id: 2,
-          linkUrl: "jackets",
-        },
-        {
-          title: "sneakers",
-          imageUrl: "https://i.ibb.co/0jqHpnp/sneakers.png",
-          id: 3,
-          linkUrl: "sneakers",
-        },
-        {
-          title: "womens",
-          imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
-          size: "large",
-          id: 4,
-          linkUrl: "womens",
-        },
-        {
-          title: "mens",
-          imageUrl: "https://i.ibb.co/R70vBrQ/men.png",
-          size: "large",
-          id: 5,
-          linkUrl: "mens",
-        },
-      ],
-    };
-  }
+const mapStateToProps = createStructuredSelector({
+	sections: selectDirectorySections
+});
 
-  render() {
-    const menuItem = this.state.sections.map(
-      ({ id, title, imageUrl, linkUrl, size }) => (
-        <MenuItem
-          key={id}
-          title={title}
-          imageUrl={imageUrl}
-          linkUrl={linkUrl}
-          size={size}
-        />
-      )
-    );
-
-    return <div className="directory-menu">{menuItem}</div>;
-  }
-}
-
-export default DirectoryMenu;
+export default connect(mapStateToProps)(DirectoryMenu);
